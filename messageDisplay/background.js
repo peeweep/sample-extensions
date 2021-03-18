@@ -1,4 +1,4 @@
-browser.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
+browser.messageDisplay.onMessageDisplayed.addListener(async (tab, message) => {
     console.log(`subject: ${message.subject}`);
 
     var reciveAddresses = new Array();
@@ -17,6 +17,24 @@ browser.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
 
     let firstAddress = reciveAddresses[0];
     let fitstAddressName, firstAddressEmail = splitNameAndEmail(firstAddress);
+
+
+    let list = await browser.addressBooks.list();
+    let firstAddressBook = list[0];
+    let firstAddressBookId = firstAddressBook.id;
+    let firstAddresses = await browser.contacts.list();
+    let findEmailInFirstAddressBookFlag = false;
+    for (let i = 0; i < firstAddressBook.length; i++) {
+        if (firstAddresses[i].properties.PrimaryEmail === firstAddressEmail) {
+            findEmailInFirstAddressBookFlag = true;
+        }
+    }
+    if (findEmailInFirstAddressBookFlag !== true) {
+        await browser.contacts.create(firstAddressBookId, {
+            DisplayName: "ABC",
+            PrimaryEmail: "abc@bakerstreet.invalid",
+        })
+    }
 });
 
 function splitNameAndEmail(address) {
@@ -33,27 +51,6 @@ function splitNameAndEmail(address) {
     return extract.name, extract.email;
 }
 
-
-// ui.addressBookDetails.onsubmit = function () {
-//
-//     let properties = {name: this.name.value};
-//
-//     let button = this.querySelector("button");
-//     let promise;
-//     button.disabled = true;
-//     if (id) {
-//         promise = browser.addressBooks.update(id, properties);
-//     } else {
-//         promise = browser.addressBooks.create(properties).then(() => {
-//             this.hidden = true;
-//         });
-//     }
-//     promise.then(() => {
-//         button.disabled = false;
-//     });
-//
-//     return false;
-// };
 
 // /**
 //  * Definition for a binary tree node.
@@ -80,21 +77,21 @@ function splitNameAndEmail(address) {
 // }
 // };
 
-
-async function injectIntoContent(tab, message) {
-
-
-    let list = await browser.addressBooks.list();
-    let defaultAddressBook = list[0];
-    let defaultAddresses = await browser.contacts.list(defaultAddressBook.id);
-    for (let i = 0; i < defaultAddressBook.length; i++) {
-        defaultAddresses[0]
-    }
-    // defaultList[0].properties.DisplayName
-    // defaultList[0].properties.PrimaryEmail
-
-
-}
-
-
-browser.messageDisplayAction.onClicked.addListener(injectIntoContent);
+//
+// async function injectIntoContent(tab, message) {
+//
+//
+//     let list = await browser.addressBooks.list();
+//     let defaultAddressBook = list[0];
+//     let defaultAddresses = await browser.contacts.list(defaultAddressBook.id);
+//     for (let i = 0; i < defaultAddressBook.length; i++) {
+//         defaultAddresses[0]
+//     }
+//     // defaultList[0].properties.DisplayName
+//     // defaultList[0].properties.PrimaryEmail
+//
+//
+// }
+//
+//
+// browser.messageDisplayAction.onClicked.addListener(injectIntoContent);
