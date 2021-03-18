@@ -15,9 +15,8 @@ browser.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
         reciveAddresses = reciveAddresses.concat(message.bccList);
     }
 
-    console.log(reciveAddresses.length);
-    console.log(`reciveAddresses: ${reciveAddresses[0]}`);
-    console.log(`reciveAddresses: ${splitNameAndEmail(reciveAddresses[0])}`);
+    let firstAddress = reciveAddresses[0];
+    let fitstAddressName, firstAddressEmail = splitNameAndEmail(firstAddress);
 });
 
 function splitNameAndEmail(address) {
@@ -56,8 +55,35 @@ function splitNameAndEmail(address) {
 //     return false;
 // };
 
+// /**
+//  * Definition for a binary tree node.
+//  * struct TreeNode {
+//  *     int val;
+//  *     TreeNode *left;
+//  *     TreeNode *right;
+//  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+//  * };
+//  */
+// class Solution {
+//     public:
+//         vector<int> postorderTraversal(TreeNode *root) {
+//     vector<int> result;
+//     traversal(root, result);
+//     return result;
+// }
+// void traversal(TreeNode *root, vector<int> &result) {
+//     if (root == nullptr)
+//         return;
+//     traversal(root->left, result);
+//     traversal(root->right, result);
+//     result.emplace_back(root->val);
+// }
+// };
+
 
 async function injectIntoContent(tab, message) {
+
+
     let list = await browser.addressBooks.list();
     let defaultAddressBook = list[0];
     let defaultAddresses = await browser.contacts.list(defaultAddressBook.id);
@@ -66,6 +92,9 @@ async function injectIntoContent(tab, message) {
     }
     // defaultList[0].properties.DisplayName
     // defaultList[0].properties.PrimaryEmail
+
+
 }
+
 
 browser.messageDisplayAction.onClicked.addListener(injectIntoContent);
