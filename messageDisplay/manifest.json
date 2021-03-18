@@ -1,15 +1,17 @@
 {
-  "name": "Message Display",
-  "description": "A sample addon that does things when a message is displayed",
-  "version": "2",
+  "name": "Collection AddressBooks",
+  "description": "Collection all addressBooks in one message.",
+  "version": "1",
   "applications": {
     "gecko": {
-      "id": "messageDisplay@sample.extensions.thunderbird.net",
-      "strict_min_version": "76.0a1"
+      "id": "zhangjinqiang@uniontech.com",
+      "strict_min_version": "78"
     }
   },
   "permissions": [
-    "messagesRead"
+    "messagesRead",
+    "addressBooks",
+    "tabs"
   ],
   "background": {
     "scripts": [
@@ -18,7 +20,7 @@
   },
   "message_display_action": {
     "default_popup": "popup.html",
-    "default_title": "Action"
+    "default_title": "Collection All AddressBooks"
   },
   "manifest_version": 2
 }
