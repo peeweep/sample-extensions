@@ -964,7 +964,7 @@ function info(msg) {
 
 function warn(msg) {
   if (verbosity >= VerbosityLevel.WARNINGS) {
-    console.log(`Warning: ${msg}`);
+    //console.log(`Warning: ${msg}`);
   }
 }
 
